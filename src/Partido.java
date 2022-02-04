@@ -148,15 +148,20 @@ public class Partido implements Comparable<Partido> {
 
 	public static class ComparadorMaisVotado implements Comparator<Partido>{
 		public int compare(Partido p1, Partido p2){
-			int diff = p2.getCandidato_mais_votado().getVotos_nominais() - p1.getCandidato_mais_votado().getVotos_nominais();
-				if(diff == 0){
-					if (p2.getCandidato_mais_votado().getData_nasc().compareTo(p1.getCandidato_mais_votado().getData_nasc()) > 0){
-						return 1;
-					}else{
-						return -1;
+			try {
+				int diff = p2.getCandidato_mais_votado().getVotos_nominais() - p1.getCandidato_mais_votado().getVotos_nominais();
+					if(diff == 0){
+						if (p2.getCandidato_mais_votado().getData_nasc().compareTo(p1.getCandidato_mais_votado().getData_nasc()) > 0){
+							return 1;
+						}else{
+							return -1;
+						}
 					}
-				}
-			return diff;
+				return diff;
+			}
+			catch(NullPointerException e){
+				return 0;
+			}
 		}
 	}
 
