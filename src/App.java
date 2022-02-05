@@ -4,12 +4,11 @@ import java.util.*;
 
 public class App {
     public static void main(String[] args) {
+        Map<Integer,Partido> mapPartidos = lePartidos(args[1]);
 
-        Map<Integer,Partido> mapPartidos = lePartidos("./testes/" + args[0] + "/in/partidos.csv");
+        List<Candidato> listaCandidatos = leCandidatos(args[0], mapPartidos);
 
-        List<Candidato> listaCandidatos = leCandidatos("./testes/" + args[0] + "/in/candidatos.csv", mapPartidos);
-
-        geraRelatorio(listaCandidatos, mapPartidos);        
+        geraRelatorio(listaCandidatos, mapPartidos, args[2]); 
     }
 
     static Map<Integer,Partido> lePartidos(String destino) {
@@ -39,7 +38,7 @@ public class App {
 
         }
         catch (FileNotFoundException e) {
-            System.out.println("Arquivo nao encontrado");
+            System.out.println("Arquivo de partidos nao encontrado!");
             System.exit(1);
         }
         catch (IOException e) {
@@ -93,7 +92,7 @@ public class App {
             // Collections.sort(mapPartidos.keySet());
         }
         catch (FileNotFoundException e) {
-            System.out.println("Arquivo nao encontrado");
+            System.out.println("Arquivo de candidatos nao encontrado!");
             System.exit(1);
         }
         catch (IOException e) {
@@ -125,7 +124,7 @@ public class App {
         }
     }
 
-    static void geraRelatorio(List<Candidato> listaCandidatos, Map<Integer,Partido> mapPartido) {
+    static void geraRelatorio(List<Candidato> listaCandidatos, Map<Integer,Partido> mapPartido, String data) {
 
         //Relatorio 1
         //Percorre toda a lista de candidatos para contar o total de eleitos, que eh igual ao total de vagas
@@ -136,8 +135,7 @@ public class App {
             if(temp.getSituacao().equals("Eleito")) {
                 listaCandidatosEleitos.add(temp);
                 numeroVagas++;
-            }
-                
+            }                
         }
 
         System.out.println("Número de vagas: " + numeroVagas + "\n");
@@ -201,7 +199,7 @@ public class App {
         imprimeRelatorio8(listaPartidos);
 
         //Relatorio 9 e 10
-        imprimeRelatorio9e10(listaCandidatosEleitos);
+        imprimeRelatorio9e10(listaCandidatosEleitos, data);
 
         //Relatorio 11
         imprimeRelatorio11(listaPartidos);
@@ -263,14 +261,14 @@ public class App {
         }
     }
 
-    static void imprimeRelatorio9e10(List<Candidato> listaCandidatosEleitos) {
+    static void imprimeRelatorio9e10(List<Candidato> listaCandidatosEleitos, String data) {
         int q1 = 0, q2 = 0, q3 = 0, q4 = 0, q5 = 0;
         int M = 0, F = 0;
         int total = listaCandidatosEleitos.size();
         int idadeTemp = 0;
 
         for(Candidato c: listaCandidatosEleitos) {
-            idadeTemp = c.getIdade();
+            idadeTemp = c.getIdade(data);
             
             if(idadeTemp < 30)
                 q1++;

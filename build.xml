@@ -5,7 +5,7 @@
     <!-- Propriedades do build. -->
     <property name="src" location="src" />
     <property name="bin" location="bin" />
-    <property name="mainClass" value="seupacote.SuaClassePrincipal" />
+    <property name="mainClass" value="App" />
 
     <!-- Inicialização. -->
     <target name="init" description="Inicializa as estruturas necessárias.">

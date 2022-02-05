@@ -29,3 +29,8 @@ vila-velha: all
 vitoria: all
 	java -cp ./bin/ App vitória > vitoria.txt
 	diff -s ./vitoria.txt ./testes/vitória/out/output.txt
+
+ant:
+	ant clean
+	ant compile
+	ant jar

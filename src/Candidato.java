@@ -119,13 +119,26 @@ public class Candidato implements Comparable<Candidato> {
         this.partido = partido;
     }
 
-    public int getIdade(){
-        if(this.data_nasc.get(Calendar.MONTH) < 10){
-            return 2020 - this.data_nasc.get(Calendar.YEAR);
-        }else if ((this.data_nasc.get(Calendar.MONTH) == 10) && (this.data_nasc.get(Calendar.DATE) <= 15)){
-            return 2020 - this.data_nasc.get(Calendar.YEAR);
+    public int getIdade(String cal){
+        String[] dataString = cal.split("/");
+        Calendar dataTemp = new GregorianCalendar();
+
+        try {
+            dataTemp.set(Calendar.YEAR, Integer.parseInt(dataString[2].trim()));
+            dataTemp.set(Calendar.MONTH, Integer.parseInt(dataString[1].trim()) - 1); // 11 = december
+            dataTemp.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dataString[0]));
+        }
+        catch(NumberFormatException e) {
+            System.out.println("A data passada nao eh valida!");
+            System.exit(1);
+        }        
+
+        if(this.data_nasc.get(Calendar.MONTH) < dataTemp.get(Calendar.MONTH)){
+            return dataTemp.get(Calendar.YEAR) - this.data_nasc.get(Calendar.YEAR);
+        }else if ((this.data_nasc.get(Calendar.MONTH) == dataTemp.get(Calendar.MONTH)) && (this.data_nasc.get(Calendar.DATE) <= dataTemp.get(Calendar.DATE))){
+            return dataTemp.get(Calendar.YEAR) - this.data_nasc.get(Calendar.YEAR);
         }else{
-            return (2020-1)-this.data_nasc.get(Calendar.YEAR);
+            return (dataTemp.get(Calendar.YEAR)-1)-this.data_nasc.get(Calendar.YEAR);
         }
     }
     
